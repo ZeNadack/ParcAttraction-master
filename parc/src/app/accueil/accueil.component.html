@@ -12,11 +12,40 @@
     </div>
     <ng-container *ngFor="let attraction of attractions | async;">
       @if(attraction.visible == true){
-        <div class="attraction">
-          <span>{{attraction.nom}}</span>
-          <span>{{attraction.description}}</span>
-          <span>{{attraction.difficulte}} / 5</span>
-        </div>
+      <div class="attraction">
+        <span>{{attraction.nom}}</span>
+        <span>{{attraction.description}}</span>
+        <span>{{attraction.difficulte}} / 5</span>
+        <!-- Interface d'insertion de critique -->
+        <dialog #myDialog>
+          <button (click)="myDialog.close()" style="float: right;">
+            X
+         </button>
+          <label for="avis" style="display: block;">Avis :</label>
+          <textarea id="avis" class="espace" rows="5" cols="50"></textarea>
+          <br>
+          <label for="note">Note :</label>
+          <select id="note" class="espace">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+          <br>
+          <label for="nom">Nom (laisser vide si anonyme) :</label>
+          <input type="text" id="nom" class="espace"/>
+          <br>
+          <label for="prenom">Prénom (laisser vide si anonyme) :</label>
+          <input type="text" id="prenom" class="espace"/>
+          <br>
+          <button (click)="myDialog.close()">
+            Envoyer
+         </button>
+       </dialog>
+       <button (click)="myDialog.show()">Écrire une critique</button>
+       <!-- Fin d'interface d'insertion de critique -->
+      </div>
       }
     </ng-container>
   </mat-card-content>

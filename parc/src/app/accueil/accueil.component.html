@@ -16,16 +16,17 @@
         <span>{{attraction.nom}}</span>
         <span>{{attraction.description}}</span>
         <span>{{attraction.difficulte}} / 5</span>
+        
         <!-- Interface d'insertion de critique -->
         <dialog #myDialog>
           <button (click)="myDialog.close()" style="float: right;" class="cancel">
             X
          </button>
           <label for="avis" style="display: block;">Avis :</label>
-          <textarea id="avis" class="espace" rows="5" cols="50"></textarea>
+          <textarea id="avis" class="espace" rows="5" cols="50" #avis></textarea>
           <br>
           <label for="note">Note :</label>
-          <select id="note" class="espace">
+          <select id="note" class="espace" #note>
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -34,17 +35,31 @@
           </select>
           <br>
           <label for="nom">Nom (laisser vide si anonyme) :</label>
-          <input type="text" id="nom" class="espace"/>
+          <input type="text" id="nom" class="espace" #nom/>
           <br>
           <label for="prenom">Prénom (laisser vide si anonyme) :</label>
-          <input type="text" id="prenom" class="espace"/>
+          <input type="text" id="prenom" class="espace" #prenom/>
           <br>
-          <button (click)="myDialog.close()">
+          <button (click)="submitCritique(
+            attraction.attraction_id, 
+            avis.value, 
+            +note.value, 
+            nom.value || null, 
+            prenom.value || null
+          )">
             Envoyer
          </button>
        </dialog>
        <button (click)="myDialog.show()">Écrire une critique</button>
        <!-- Fin d'interface d'insertion de critique -->
+
+       <div *ngIf="critiques[attraction.attraction_id]?.length">
+         <h4>Critiques :</h4>
+         <div *ngFor="let critique of critiques[attraction.attraction_id]">
+           <p><strong>{{ critique.nom || 'Anonyme' }} {{ critique.prenom || '' }}</strong> - Note : {{ critique.note }}/5</p>
+           <p>{{ critique.texte }}</p>
+         </div>
+       </div>
       </div>
       }
     </ng-container>
